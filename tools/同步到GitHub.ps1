@@ -18,10 +18,17 @@ if (-not (Test-Path -LiteralPath $gh)) {
 Set-Location -LiteralPath $RepoRoot
 Write-Host "Repository: $RepoRoot" -ForegroundColor Cyan
 
-& $gh auth status 2>$null
-if ($LASTEXITCODE -ne 0) {
+# gh auth status prints to stderr when not logged in; avoid red NativeCommandError noise
+$prevEap = $ErrorActionPreference
+$ErrorActionPreference = 'SilentlyContinue'
+$null = & $gh auth status 2>&1
+$ghAuthOk = ($LASTEXITCODE -eq 0)
+$ErrorActionPreference = $prevEap
+
+if (-not $ghAuthOk) {
     Write-Host ''
     Write-Host '=== Step 1: log in to GitHub (one time) ===' -ForegroundColor Yellow
+    Write-Host '(尚未登录 GitHub 命令行，下面会打开登录流程；属正常情况，不是脚本坏了。)' -ForegroundColor DarkGray
     Write-Host 'Choose: GitHub.com, HTTPS, then Login with a web browser.'
     Write-Host 'After that, run this script again.'
     Write-Host ''
