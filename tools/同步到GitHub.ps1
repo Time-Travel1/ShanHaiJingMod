@@ -40,8 +40,9 @@ if ($LASTEXITCODE -eq 0) {
 $defaultName = "ShanHaiJingMod"
 Write-Host ""
 Write-Host "========== 第二步：在 GitHub 上创建仓库并推送 ==========" -ForegroundColor Yellow
-Write-Host "将创建公开仓库，默认名称: $defaultName（若重名请改下面变量 RepoName）"
-$RepoName = Read-Host "仓库名 [回车使用 $defaultName]"
+Write-Host "将创建公开仓库，默认名称: $defaultName（若重名请改仓库名）"
+# 注意：双引号内不能写 [xxx] 形式，否则 PowerShell 会当成通配符字符类导致解析错误
+$RepoName = Read-Host "仓库名（直接回车则使用 $defaultName）"
 if ([string]::IsNullOrWhiteSpace($RepoName)) { $RepoName = $defaultName }
 
 Write-Host "执行: gh repo create $RepoName --public --source=. --remote=origin --push" -ForegroundColor Cyan
