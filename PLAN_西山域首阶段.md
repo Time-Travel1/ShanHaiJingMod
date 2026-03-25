@@ -33,6 +33,7 @@ isProject: false
 - **每次迭代流程**：修改计划 → **先写入/保存上述文件** → 如需再在 Cursor 计划面板里同步同内容，避免两份漂移。
 - **AI 或协作辅助**：任何一方更新计划后，由执行者在同一回合内把 `PLAN_西山域首阶段.md` 更新到位。
 - **改代码后的 Klei 同步**：在 `d:\CursorProject\dontstarve\ShanHaiJingMod` 内修改脚本或相关文件后，由协助者在**同一轮对话内**将**整个** `ShanHaiJingMod` 文件夹**覆盖复制**到 `%USERPROFILE%\Documents\Klei\DoNotStarveTogether\mods\ShanHaiJingMod\`（与 `easybuff_stats` 等本地 MOD 同级），便于游戏内加载；若用户明确说「不用同步」则可跳过。
+- **GitHub 同步（需本人登录一次）**：仓库已 `git init` 并有提交；因账号与授权无法由他人代劳，使用 `tools\同步到GitHub.bat`（或 `tools\同步到GitHub.ps1`），按 `tools\GITHUB说明.txt` 先完成 `gh auth login`，再运行脚本即可 `gh repo create` 并 `push`。本机已安装 **GitHub CLI（gh）**（`winget install GitHub.cli`）。
 
 # 山海经 MOD — 仅西山域（首阶段验证）
 
