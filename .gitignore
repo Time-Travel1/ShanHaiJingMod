@@ -1,0 +1,16 @@
+# OS
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs (if any copied into project)
+*.log
+
+# Optional: local Cursor metadata if symlinked into project
+.cursor/
