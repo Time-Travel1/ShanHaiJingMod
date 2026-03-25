@@ -128,6 +128,14 @@ M.Worldgen = {
                 skeleton = 0.02,
                 houndbone = 0.015,
                 goldnugget = 0.012,
+
+                -- 第二阶段占位地标（原版 prefab，不新增贴图/道具）
+                -- ancient_altar：上古祭坛类地标，可用于形成“神山气质”的核心剪影
+                ancient_altar = 0.006,
+                -- resurrectionstone：触碰石（可用于少量复活点/符号化神坛）
+                resurrectionstone = 0.003,
+                -- fireflies：氛围小生物/粒子感，增强“进域一震”的可见度
+                fireflies = 0.012,
             },
         },
         XISHAN_SLOPE = {
@@ -151,6 +159,11 @@ M.Worldgen = {
                 twiggy_tall = 0.04,
                 skeleton = 0.015,
                 goldnugget = 0.01,
+
+                -- 神异聚落/山路意象（占位）
+                ancient_altar = 0.004,
+                resurrectionstone = 0.002,
+                fireflies = 0.008,
             },
         },
         XISHAN_PEAK = {
@@ -172,6 +185,10 @@ M.Worldgen = {
                 skeleton = 0.025,
                 houndbone = 0.02,
                 goldnugget = 0.015,
+
+                -- 峰顶更“神”，地标权重略升，但仍保持稀有，避免挤占地皮与可玩性
+                ancient_altar = 0.008,
+                resurrectionstone = 0.001,
             },
         },
     },

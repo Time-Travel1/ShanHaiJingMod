@@ -15,8 +15,8 @@ todos:
     content: 将西山域第一版的“可调名字/任务ID/房间ID/地皮类型/权重分布/小地图颜色”等从 Lua 代码抽离到 `scripts/sh_config.lua`，便于你直接改配置不改代码；并加入 `world_size` 驱动的 task 变体，让小世界/大世界西山域区域观感大小不同
     status: completed
   - id: west-domain-content-phase2
-    content: 第二阶段接入建筑、动植物与天气；建筑优先神山奇观级虚构地标（体量、光影、非常规结构），与西山域文本意象对齐后再实现 prefab，目标第一眼即惊艳
-    status: pending
+    content: 第二阶段占位实现：在西山域房间内加入少量“神山气质”原版 prefab 地标（不新增贴图/道具）与少量氛围动植物；神山自定义建筑/独占道具、区域天气仍在后续版本加入
+    status: completed
   - id: stability-pass
     content: 与主世界生成、回档、客机一致性测试；处理与常见世界生成 MOD 的冲突策略（文档或可选兼容）
     status: pending
