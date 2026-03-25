@@ -36,8 +36,13 @@ if (-not $ghAuthOk) {
     exit 0
 }
 
-git remote get-url origin 2>$null | Out-Null
-if ($LASTEXITCODE -eq 0) {
+# No origin yet is normal on first run; git writes to stderr and must be silenced
+$ErrorActionPreference = 'SilentlyContinue'
+$null = & git remote get-url origin 2>&1
+$hasOrigin = ($LASTEXITCODE -eq 0)
+$ErrorActionPreference = $prevEap
+
+if ($hasOrigin) {
     Write-Host 'Remote origin already set. Pushing to main...' -ForegroundColor Green
     git push -u origin main
     exit $LASTEXITCODE
