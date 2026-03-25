@@ -1,107 +1,55 @@
 GLOBAL.setmetatable(env, { __index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end })
 
--- 西山域：主世界森林 level 中追加独立 task。
--- 基础可辨识环境：官方地皮上堆「化石树 + 多岩 + 疏林（twiggy）+ 瘠薄草甸」，与小地图房间色调，与周边常青密林/草原拉开剪影；专用贴图 turf 后续再加。
+-- worldgen 主逻辑入口（只负责把配置“读出来并注册到 DST worldgen”）
+-- 你不要在这里改数值/名字，尽量在 scripts/sh_config.lua 改。
+-- 本文件的职责：
+-- 1) 读取 sh_config.lua 的 Rooms/Task/LevelId/Location
+-- 2) AddRoom(room_id, room_cfg) 把每个房间注册到 worldgen
+-- 3) AddTask(TaskId, ...) 把房间集合组装成一个可落位任务
+-- 4) 在 AddLevelPreInit(LevelId) 钩子里把 TaskId 插入到对应 level.tasks
 
+
+-- scripts/sh_config.lua 会以 GLOBAL.require("sh_config") 的方式被读入
+local CFG = GLOBAL.require("sh_config")
 local LOCKS = GLOBAL.LOCKS
 local KEYS = GLOBAL.KEYS
 
--- 岩石旷野：化石树成片、裸岩多、草/浆果刻意压低，读出「荒山石塬」。
-AddRoom("XISHAN_CLEARING", {
-    colour = { r = 0.52, g = 0.50, b = 0.28, a = 0.38 },
-    value = GLOBAL.GROUND.ROCKY,
-    tags = { "ExitPiece", "RoadPoison" },
-    contents = {
-        distributepercent = 0.42,
-        distributeprefabs = {
-            rock1 = 0.12,
-            rock2 = 0.12,
-            rock_flintless = 0.08,
-            flint = 0.04,
-            rock_petrified_tree_short = 0.07,
-            rock_petrified_tree_med = 0.06,
-            rock_petrified_tree_tall = 0.05,
-            rock_petrified_tree_old = 0.04,
-            twiggy_short = 0.07,
-            twiggy_normal = 0.05,
-            twigs = 0.10,
-            grass = 0.03,
-            berrybush = 0.005,
-            skeleton = 0.02,
-            houndbone = 0.015,
-            goldnugget = 0.012,
-        },
-    },
-})
+local function ground(id)
+    -- ground id 是 "ROCKY"/"DIRT" 这类键名，映射到 GLOBAL.GROUND.<键>
+    return GLOBAL.GROUND[id]
+end
 
--- 灰土缓坡：常青与化石混交，保留一点「经行山路」感。
-AddRoom("XISHAN_SLOPE", {
-    colour = { r = 0.45, g = 0.48, b = 0.30, a = 0.38 },
-    value = GLOBAL.GROUND.DIRT,
-    tags = { "ExitPiece", "RoadPoison" },
-    contents = {
-        distributepercent = 0.38,
-        distributeprefabs = {
-            rock1 = 0.08,
-            rock2 = 0.08,
-            rock_flintless = 0.05,
-            flint = 0.03,
-            rock_petrified_tree_short = 0.04,
-            rock_petrified_tree_med = 0.04,
-            rock_petrified_tree_tall = 0.04,
-            rock_petrified_tree_old = 0.03,
-            pinecone = 0.03,
-            evergreen_short = 0.08,
-            evergreen_normal = 0.10,
-            evergreen_tall = 0.08,
-            twiggy_tall = 0.04,
-            skeleton = 0.015,
-            goldnugget = 0.01,
+local function add_room(room_id, room_cfg)
+    -- room_cfg 必须具备：colour / ground / tags / distributepercent / distributeprefabs
+    AddRoom(room_id, {
+        colour = room_cfg.colour,
+        value = ground(room_cfg.ground),
+        tags = room_cfg.tags,
+        contents = {
+            distributepercent = room_cfg.distributepercent,
+            distributeprefabs = room_cfg.distributeprefabs,
         },
-    },
-})
+    })
+end
 
--- 石峰脊线：几乎纯石与枯化树影，地块内一眼偏「绝岭」。
-AddRoom("XISHAN_PEAK", {
-    colour = { r = 0.58, g = 0.52, b = 0.26, a = 0.4 },
-    value = GLOBAL.GROUND.ROCKY,
-    tags = { "ExitPiece", "RoadPoison" },
-    contents = {
-        distributepercent = 0.45,
-        distributeprefabs = {
-            rock1 = 0.16,
-            rock2 = 0.14,
-            rock_flintless = 0.10,
-            flint = 0.03,
-            rock_petrified_tree_old = 0.09,
-            rock_petrified_tree_tall = 0.07,
-            rock_petrified_tree_med = 0.05,
-            rock_petrified_tree_short = 0.04,
-            twigs = 0.08,
-            grass = 0.01,
-            skeleton = 0.025,
-            houndbone = 0.02,
-            goldnugget = 0.015,
-        },
-    },
-})
+for room_id, room_cfg in pairs(CFG.Worldgen.Rooms) do
+    add_room(room_id, room_cfg)
+end
 
-AddTask("XISHAN_DOMAIN", {
+-- 把 CFG.Worldgen.Task 组装成一个 task
+AddTask(CFG.Worldgen.TaskId, {
     locks = { LOCKS.NONE },
     keys_given = { KEYS.NONE },
-    entrance_room = "Forest",
-    room_choices = {
-        ["XISHAN_CLEARING"] = 2,
-        ["XISHAN_SLOPE"] = 2,
-        ["XISHAN_PEAK"] = 1,
-    },
-    room_bg = GLOBAL.GROUND.ROCKY,
-    background_room = "BGNoise",
-    colour = { r = 0.96, g = 0.82, b = 0.22, a = 1 },
+    entrance_room = CFG.Worldgen.Task.entrance_room,
+    room_choices = CFG.Worldgen.Task.room_choices,
+    room_bg = ground(CFG.Worldgen.Task.room_bg),
+    background_room = CFG.Worldgen.Task.background_room,
+    colour = CFG.Worldgen.Task.colour,
 })
 
-AddLevelPreInit("SURVIVAL_TOGETHER", function(level)
-    if level.location == "forest" and level.tasks ~= nil then
-        table.insert(level.tasks, "XISHAN_DOMAIN")
+-- 把该 task 挂到指定 level（主世界生成入口）上
+AddLevelPreInit(CFG.Worldgen.LevelId, function(level)
+    if level.location == CFG.Worldgen.Location and level.tasks ~= nil then
+        table.insert(level.tasks, CFG.Worldgen.TaskId)
     end
 end)
