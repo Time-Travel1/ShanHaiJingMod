@@ -1,0 +1,32 @@
+山海经 MOD — 同步到 GitHub（给「不会操作」用的最短步骤）
+============================================================
+
+我已经在你电脑上装好了：Git、GitHub 官方命令行（gh）。
+
+你只需要做两件事（第一次大约 2 分钟）：
+
+【1】登录 GitHub（一辈子在这台电脑上通常只需一次）
+
+  1）双击运行：tools\同步到GitHub.bat
+     （或在文件夹空白处 Shift+右键 →「在此处打开 PowerShell」，输入：）
+     powershell -ExecutionPolicy Bypass -File tools\同步到GitHub.ps1
+
+  2）若提示未登录，按屏幕提示运行 gh auth login：
+     - 选 GitHub.com
+     - 选 HTTPS
+     - 选「用浏览器登录」最省事，浏览器里点授权即可
+
+【2】再运行一次同一个脚本
+
+  再次双击 同步到GitHub.bat
+  - 会问仓库名，直接回车 = 使用 ShanHaiJingMod
+  - 若提示仓库名已被占用，换一个名字再试
+
+完成后浏览器里会出现在你账号下的仓库，代码已在 main 分支。
+
+以后改了代码，在项目根目录执行：
+  git add -A
+  git commit -m "说明改了什么"
+  git push
+
+（若 push 提示要登录，再执行一次 gh auth login 即可。）
