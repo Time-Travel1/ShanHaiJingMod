@@ -76,9 +76,25 @@ AddLevelPreInit(CFG.Worldgen.LevelId, function(level)
             or normalize(level.worldsettings and (level.worldsettings.world_size or level.worldsettings.worldSize))
             or normalize(level.worldsettings_overrides and (level.worldsettings_overrides.world_size or level.worldsettings_overrides.worldSize))
 
+        -- 根据 world_size 选择 task 变体：
+        -- 1) 优先精确映射（small/default/large/huge 等）
+        -- 2) 再做兜底：用字符串包含判断（避免不同版本字段命名不一致导致精确匹配失败）
         local variantKey = "DEFAULT"
         if ws and CFG.Worldgen.WorldSizeToVariant and CFG.Worldgen.WorldSizeToVariant[ws] then
             variantKey = CFG.Worldgen.WorldSizeToVariant[ws]
+        elseif ws then
+            if string.find(ws, "small", 1, true) then
+                variantKey = "SMALL"
+            elseif string.find(ws, "huge", 1, true) then
+                variantKey = "HUGE"
+            elseif string.find(ws, "large", 1, true) then
+                -- 有些版本“large”可能就是你想要的“大区域”观感；这里直接走 HUGE 方案
+                variantKey = "HUGE"
+            elseif string.find(ws, "medium", 1, true) then
+                variantKey = "DEFAULT"
+            elseif string.find(ws, "default", 1, true) then
+                variantKey = "DEFAULT"
+            end
         end
 
         table.insert(level.tasks, variant_task_id(variantKey))
