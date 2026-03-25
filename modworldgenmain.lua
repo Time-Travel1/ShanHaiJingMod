@@ -36,20 +36,51 @@ for room_id, room_cfg in pairs(CFG.Worldgen.Rooms) do
     add_room(room_id, room_cfg)
 end
 
--- 把 CFG.Worldgen.Task 组装成一个 task
-AddTask(CFG.Worldgen.TaskId, {
-    locks = { LOCKS.NONE },
-    keys_given = { KEYS.NONE },
-    entrance_room = CFG.Worldgen.Task.entrance_room,
-    room_choices = CFG.Worldgen.Task.room_choices,
-    room_bg = ground(CFG.Worldgen.Task.room_bg),
-    background_room = CFG.Worldgen.Task.background_room,
-    colour = CFG.Worldgen.Task.colour,
-})
+-- 注册多个 task 变体（只改变 room_choices，从而让区域大小随 world_size 变化）
+-- 约定：task id = CFG.Worldgen.TaskId .. "_" .. variantKey
+local function variant_task_id(variantKey)
+    return CFG.Worldgen.TaskId .. "_" .. tostring(variantKey)
+end
 
--- 把该 task 挂到指定 level（主世界生成入口）上
+for variantKey, variantCfg in pairs(CFG.Worldgen.TaskVariants or {}) do
+    AddTask(variant_task_id(variantKey), {
+        locks = { LOCKS.NONE },
+        keys_given = { KEYS.NONE },
+        entrance_room = CFG.Worldgen.Task.entrance_room,
+        room_choices = variantCfg.room_choices,
+        room_bg = ground(CFG.Worldgen.Task.room_bg),
+        background_room = CFG.Worldgen.Task.background_room,
+        colour = CFG.Worldgen.Task.colour,
+    })
+end
+
+-- 把对应变体 task 挂到指定 level（主世界生成入口）上
 AddLevelPreInit(CFG.Worldgen.LevelId, function(level)
     if level.location == CFG.Worldgen.Location and level.tasks ~= nil then
-        table.insert(level.tasks, CFG.Worldgen.TaskId)
+        -- DST 不同版本 level 字段命名不一定一致，因此用多种候选字段兜底
+        local function normalize(sz)
+            if sz == nil then
+                return nil
+            end
+            if type(sz) ~= "string" then
+                sz = tostring(sz)
+            end
+            return string.lower(sz)
+        end
+
+        local ws =
+            normalize(level.world_size)
+            or normalize(level.worldSize)
+            or normalize(level.map_size)
+            or normalize(level.mapSize)
+            or normalize(level.worldsettings and (level.worldsettings.world_size or level.worldsettings.worldSize))
+            or normalize(level.worldsettings_overrides and (level.worldsettings_overrides.world_size or level.worldsettings_overrides.worldSize))
+
+        local variantKey = "DEFAULT"
+        if ws and CFG.Worldgen.WorldSizeToVariant and CFG.Worldgen.WorldSizeToVariant[ws] then
+            variantKey = CFG.Worldgen.WorldSizeToVariant[ws]
+        end
+
+        table.insert(level.tasks, variant_task_id(variantKey))
     end
 end)

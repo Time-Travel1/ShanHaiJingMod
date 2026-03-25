@@ -50,6 +50,55 @@ M.Worldgen = {
         },
     },
 
+    -- 动态区域大小（世界规模驱动）
+    -- 说明：
+    --   你当前的第一版是把同一个 task（TaskId）挂到世界生成里。
+    --   这会导致小世界/大世界的「房间数」观感可能接近。
+    --   为了让你要的“不一样”，我们注册多个 task 变体，然后按世界 world_size 选择其中一个。
+    --
+    -- 重要：
+    --   - 不建议改下面生成变体 task 的后缀规则（代码里会用 TaskId .. "_" .. variantKey）
+    --   - room_choices 的 key 必须是 Rooms[...] 里实际存在的房间 ID（XISHAN_CLEARING / XISHAN_SLOPE / XISHAN_PEAK）
+    --   - 数值是“出现次数/权重次数”，不是百分比保证；调参需要新档验证。
+    TaskVariants = {
+        -- 小世界：更少房间 => 区域观感更小
+        SMALL = {
+            room_choices = {
+                XISHAN_CLEARING = 1,
+                XISHAN_SLOPE = 1,
+                XISHAN_PEAK = 1,
+            },
+        },
+
+        -- 默认世界：保持你当前的第一版表现
+        DEFAULT = {
+            room_choices = {
+                XISHAN_CLEARING = 2,
+                XISHAN_SLOPE = 2,
+                XISHAN_PEAK = 1,
+            },
+        },
+
+        -- 巨型世界：更多房间 => 区域观感更大
+        HUGE = {
+            room_choices = {
+                XISHAN_CLEARING = 3,
+                XISHAN_SLOPE = 3,
+                XISHAN_PEAK = 2,
+            },
+        },
+    },
+
+    -- 映射：把 DST world_size 字符串映射到上面变体 key
+    -- 如果你在游戏里看到的世界规模选项字符串不同，把这里补上映射即可。
+    WorldSizeToVariant = {
+        small = "SMALL",
+        medium = "DEFAULT",
+        default = "DEFAULT",
+        large = "HUGE",
+        huge = "HUGE",
+    },
+
     -- 三个房间（room）定义：AddRoom() 会逐个把这里内容“拼进任务”
     Rooms = {
         XISHAN_CLEARING = {
