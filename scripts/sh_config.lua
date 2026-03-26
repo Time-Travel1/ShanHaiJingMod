@@ -18,11 +18,11 @@ local M = {}
 
 M.Mod = {
     DisplayName = "山海经 · 西山域",
-    Version = "0.2.2",
+    Version = "0.2.4",
     Description = [[
 【第一阶段】主世界森林追加「西山域」生成任务：化石林 + 多岩 + 疏林（twiggy）+ 灰土/岩地混搭，小地图黄绿偏金色块可辨；仍为官方地皮占位，神山建筑与域内天气在后续版本加入。
 
-【第二阶段（占位）】原版地标 + 氛围生物；客户端在进入/离开西山域房间时叠轻度调色（可调/可关）。
+【第二阶段（占位）】原版地标 + 氛围生物；新增最小玩法闭环（西山灵草→草叶→护符），并保留域内氛围与轻量玩法光环可配置。
 
 新建世界后跑图寻找西山域地块。
 ]],
@@ -144,6 +144,7 @@ M.Worldgen = {
                 butterfly = 0.014,
                 crow = 0.010,
                 flower = 0.012,
+                sh_xishan_herb = 0.020,
             },
         },
         XISHAN_SLOPE = {
@@ -177,6 +178,7 @@ M.Worldgen = {
                 crow = 0.008,
                 molehill = 0.018,
                 flower = 0.010,
+                sh_xishan_herb = 0.016,
             },
         },
         XISHAN_PEAK = {
@@ -206,6 +208,7 @@ M.Worldgen = {
 
                 -- 金玉/神异联想：大理石树极稀有；若某 DST 版本 worldgen 不认该 prefab，可改回 0 或删掉此行
                 marbletree = 0.004,
+                sh_xishan_herb = 0.008,
             },
         },
     },
@@ -231,6 +234,25 @@ M.Runtime = {
     SoundEnter = "",
     -- 离开域时播放的一次性音效（留空 = 不播）
     SoundLeave = "",
+    -- 是否播放域内循环音效（会在进入域时开始、离开域时停止）
+    EnableLoopSound = false,
+    -- 循环音效路径（留空 = 不播）
+    SoundLoop = "",
+
+    -- 轻量玩法光环（主机判定，所有玩家一致生效）
+    -- 仍属“占位玩法”层，不涉及新道具/新贴图。
+    Gameplay = {
+        -- 总开关：false 则不改理智/饥饿/移速
+        Enabled = true,
+        -- 主机检测周期（秒），建议 >= 0.2
+        PollPeriod = 0.35,
+        -- 域内理智每秒附加值：正数回理智，负数掉理智（例如 -0.5）
+        SanityDeltaPerSecond = 0.15,
+        -- 域内饥饿速率倍率：1 = 不变；<1 更耐饿；>1 更耗饥饿
+        HungerRateMultiplier = 0.95,
+        -- 域内移速倍率：1 = 不变
+        SpeedMultiplier = 1.03,
+    },
 }
 
 return M

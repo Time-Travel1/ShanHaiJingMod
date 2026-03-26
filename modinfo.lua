@@ -4,10 +4,10 @@ description = [[
 
 新建世界后跑图寻找西山域地块。
 
-【第二阶段（占位）】地标 + 氛围生物；进入西山域房间时客户端轻度调色（可关，见 sh_config Runtime）。
+【第二阶段（占位）】地标 + 氛围生物 + 最小玩法闭环（西山灵草→草叶→护符）；域内可叠调色/循环音效，并可启用轻量玩法光环（见 sh_config Runtime）。
 ]]
 author = "ShanHaiJingMod"
-version = "0.2.2"
+version = "0.2.4"
 forumthread = ""
 api_version = 10
 

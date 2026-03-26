@@ -1,6 +1,10 @@
 GLOBAL.setmetatable(env, { __index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end })
 
-PrefabFiles = {}
+PrefabFiles = {
+    "sh_xishan_herb",
+    "sh_xishan_leaf",
+    "sh_xishan_talisman",
+}
 Assets = {}
 
 local CFG = GLOBAL.require("sh_config")
@@ -15,3 +19,24 @@ GLOBAL.require("sh_xishan_runtime").Init(CFG)
 -- - modinfo.lua 的名称/简介是 DST 的启动配置，不能稳定从这里动态读取，所以 modinfo.lua 里仍是静态字符串。
 -- - 这里仅用于把 CFG.Mod.DisplayName 写入 STRINGS（如果你的 DST 版本/界面会用到该 key）。
 STRINGS.NAMES.SHANHAIJING_XISHAN = CFG.Mod.DisplayName
+STRINGS.NAMES.SH_XISHAN_HERB = "西山灵草"
+STRINGS.NAMES.SH_XISHAN_LEAF = "西山草叶"
+STRINGS.NAMES.SH_XISHAN_TALISMAN = "西山护符"
+
+STRINGS.RECIPE_DESC.SH_XISHAN_TALISMAN = "以西山草叶编成的护身符。"
+
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SH_XISHAN_HERB = "有股山中寒气。"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SH_XISHAN_LEAF = "闻起来比普通草更清冽。"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SH_XISHAN_TALISMAN = "佩在身上，心会更定。"
+
+AddRecipe2(
+    "sh_xishan_talisman",
+    {
+        Ingredient("sh_xishan_leaf", 4),
+        Ingredient("goldnugget", 1),
+        Ingredient("flint", 1),
+    },
+    TECH.SCIENCE_ONE,
+    { numtogive = 1 },
+    { "MAGIC" }
+)
