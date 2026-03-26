@@ -4,6 +4,7 @@ PrefabFiles = {
     "sh_xishan_herb",
     "sh_xishan_leaf",
     "sh_xishan_talisman",
+    "sh_xishan_marker",
 }
 Assets = {}
 
@@ -22,12 +23,14 @@ STRINGS.NAMES.SHANHAIJING_XISHAN = CFG.Mod.DisplayName
 STRINGS.NAMES.SH_XISHAN_HERB = "西山灵草"
 STRINGS.NAMES.SH_XISHAN_LEAF = "西山草叶"
 STRINGS.NAMES.SH_XISHAN_TALISMAN = "西山护符"
+STRINGS.NAMES.SH_XISHAN_MARKER = "西山域界碑"
 
 STRINGS.RECIPE_DESC.SH_XISHAN_TALISMAN = "以西山草叶编成的护身符。"
 
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.SH_XISHAN_HERB = "有股山中寒气。"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.SH_XISHAN_LEAF = "闻起来比普通草更清冽。"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.SH_XISHAN_TALISMAN = "佩在身上，心会更定。"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SH_XISHAN_MARKER = "刻痕指向西山域深处。"
 
 AddRecipe2(
     "sh_xishan_talisman",
