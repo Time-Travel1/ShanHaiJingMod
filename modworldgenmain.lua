@@ -21,14 +21,20 @@ end
 
 local function add_room(room_id, room_cfg)
     -- room_cfg 必须具备：colour / ground / tags / distributepercent / distributeprefabs
+    local contents = {
+        distributepercent = room_cfg.distributepercent,
+        distributeprefabs = room_cfg.distributeprefabs,
+    }
+    -- 可选：强标记地标（countprefabs）用于“至少生成 N 个”
+    if room_cfg.countprefabs ~= nil then
+        contents.countprefabs = room_cfg.countprefabs
+    end
+
     AddRoom(room_id, {
         colour = room_cfg.colour,
         value = ground(room_cfg.ground),
         tags = room_cfg.tags,
-        contents = {
-            distributepercent = room_cfg.distributepercent,
-            distributeprefabs = room_cfg.distributeprefabs,
-        },
+        contents = contents,
     })
 end
 

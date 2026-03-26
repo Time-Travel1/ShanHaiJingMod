@@ -18,11 +18,11 @@ local M = {}
 
 M.Mod = {
     DisplayName = "山海经 · 西山域",
-    Version = "0.2.4",
+    Version = "0.2.5",
     Description = [[
 【第一阶段】主世界森林追加「西山域」生成任务：化石林 + 多岩 + 疏林（twiggy）+ 灰土/岩地混搭，小地图黄绿偏金色块可辨；仍为官方地皮占位，神山建筑与域内天气在后续版本加入。
 
-【第二阶段（占位）】原版地标 + 氛围生物；新增最小玩法闭环（西山灵草→草叶→护符），并保留域内氛围与轻量玩法光环可配置。
+【第二阶段（占位）】原版地标 + 氛围生物 + 最小玩法闭环；新增“西山标记路牌”用于跑图快速识别（无需美术资源）。
 
 新建世界后跑图寻找西山域地块。
 ]],
@@ -145,6 +145,8 @@ M.Worldgen = {
                 crow = 0.010,
                 flower = 0.012,
                 sh_xishan_herb = 0.020,
+                -- 标记路牌：平地略少
+                homesign = 0.0015,
             },
         },
         XISHAN_SLOPE = {
@@ -179,6 +181,8 @@ M.Worldgen = {
                 molehill = 0.018,
                 flower = 0.010,
                 sh_xishan_herb = 0.016,
+                -- 山路上稍多，便于指路
+                homesign = 0.0025,
             },
         },
         XISHAN_PEAK = {
@@ -186,6 +190,10 @@ M.Worldgen = {
             ground = "ROCKY",
             tags = { "ExitPiece", "RoadPoison" },
             distributepercent = 0.45,
+            -- 峰顶至少 1 个路牌，保证“标记性”存在
+            countprefabs = {
+                homesign = 1,
+            },
             distributeprefabs = {
                 rock1 = 0.16,
                 rock2 = 0.14,
@@ -209,6 +217,8 @@ M.Worldgen = {
                 -- 金玉/神异联想：大理石树极稀有；若某 DST 版本 worldgen 不认该 prefab，可改回 0 或删掉此行
                 marbletree = 0.004,
                 sh_xishan_herb = 0.008,
+                -- 峰顶路牌更显眼
+                homesign = 0.006,
             },
         },
     },

@@ -163,3 +163,4 @@ flowchart LR
 - **0.2.2（域内运行时氛围·客户端）**：新增 `scripts/sh_xishan_runtime.lua`，在 **`TheNet:GetIsClient()`** 且本地玩家上按 **`GetTopologyIDAtPoint`** 与 **`Worldgen.Rooms`** 比对；域内通过 **`playervision:SetCustomCCTable`** 叠轻度 ruins 系 colour cube（`sh_config.M.Runtime` 可调/可关）。专用域天气与粒子仍属后续；**`stability-pass` 仍最后。**
 - **0.2.3（域内运行时氛围·玩法占位增强）**：`sh_xishan_runtime.lua` 新增两层非美术能力：1) 客户端域内循环音效（可关）；2) 主机侧域内轻量玩法光环（理智外部修正、饥饿倍率、移速倍率，均在 `sh_config.M.Runtime.Gameplay` 配置）。保持“占位先行”，不引入新贴图/新道具；`stability-pass` 继续后置。
 - **0.2.4（非美术最小闭环 prefab）**：新增 `scripts/prefabs/sh_xishan_herb.lua`（可采集节点）、`sh_xishan_leaf.lua`（材料）、`sh_xishan_talisman.lua`（可制作护符）；`modmain.lua` 注册 `PrefabFiles`、名称描述与配方；`sh_config` 三房间分布中追加 `sh_xishan_herb`，形成“采集→合成→收益”闭环，仍不涉及新美术资源。
+- **0.2.5（强标记路牌）**：为满足“跑图一眼识别西山域”，在 worldgen 中引入 `countprefabs` 支持；`XISHAN_PEAK` 设 `countprefabs.homesign = 1` 保底生成标记路牌，并在三房间追加低权重 `homesign` 分布（峰顶更高）。全程复用原版 prefab，不涉及新美术资源。
