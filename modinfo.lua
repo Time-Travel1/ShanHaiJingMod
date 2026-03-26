@@ -4,10 +4,10 @@ description = [[
 
 新建世界后跑图寻找西山域地块。
 
-【第二阶段（占位）】在西山域房间内加入少量“神山气质”地标 prefab 与氛围动植物（全用原版已有 prefab，不新增贴图/道具）。
+【第二阶段（占位）】地标（祭坛/复活石/萤火虫）+ 氛围（蝴蝶、乌鸦、鼹鼠丘、野花、峰顶少量大理石树）；全原版 prefab，无自制贴图。
 ]]
 author = "ShanHaiJingMod"
-version = "0.2.0"
+version = "0.2.1"
 forumthread = ""
 api_version = 10
 

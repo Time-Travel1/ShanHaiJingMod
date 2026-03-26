@@ -17,9 +17,11 @@ local M = {}
 
 M.Mod = {
     DisplayName = "山海经 · 西山域",
-    Version = "0.1.1",
+    Version = "0.2.1",
     Description = [[
 【第一阶段】主世界森林追加「西山域」生成任务：化石林 + 多岩 + 疏林（twiggy）+ 灰土/岩地混搭，小地图黄绿偏金色块可辨；仍为官方地皮占位，神山建筑与域内天气在后续版本加入。
+
+【第二阶段（占位）】原版地标（祭坛/复活石/萤火虫等）+ 第二批低权重氛围（蝴蝶、乌鸦、鼹鼠丘、野花、峰顶少量大理石树），仍无自制贴图。
 
 新建世界后跑图寻找西山域地块。
 ]],
@@ -136,6 +138,11 @@ M.Worldgen = {
                 resurrectionstone = 0.003,
                 -- fireflies：氛围小生物/粒子感，增强“进域一震”的可见度
                 fireflies = 0.012,
+
+                -- 第二版占位：山野氛围（全原版 prefab）
+                butterfly = 0.014,
+                crow = 0.010,
+                flower = 0.012,
             },
         },
         XISHAN_SLOPE = {
@@ -164,6 +171,11 @@ M.Worldgen = {
                 ancient_altar = 0.004,
                 resurrectionstone = 0.002,
                 fireflies = 0.008,
+
+                butterfly = 0.010,
+                crow = 0.008,
+                molehill = 0.018,
+                flower = 0.010,
             },
         },
         XISHAN_PEAK = {
@@ -189,6 +201,10 @@ M.Worldgen = {
                 -- 峰顶更“神”，地标权重略升，但仍保持稀有，避免挤占地皮与可玩性
                 ancient_altar = 0.008,
                 resurrectionstone = 0.001,
+                fireflies = 0.006,
+
+                -- 金玉/神异联想：大理石树极稀有；若某 DST 版本 worldgen 不认该 prefab，可改回 0 或删掉此行
+                marbletree = 0.004,
             },
         },
     },

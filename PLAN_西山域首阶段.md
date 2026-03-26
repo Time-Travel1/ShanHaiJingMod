@@ -158,3 +158,5 @@ flowchart LR
 
 - **0.1.0**：已添加 `modinfo.lua`、`modmain.lua`、`modworldgenmain.lua`。在联机主世界森林（`SURVIVAL_TOGETHER` 且 `level.location == "forest"`）的 `level.tasks` 末尾注入 `XISHAN_DOMAIN`；定义房间 `XISHAN_CLEARING`（`GROUND.ROCKY`）、`XISHAN_SLOPE`（`GROUND.DIRT`）及石景/常青树/草等布景权重。当前为 **官方地皮占位**，无专用贴图；「空闲落位」依赖 Klei 任务图拼接，未做生成后二次改写地皮。下一步：`stability-pass`（多 seed、联机、与改图 MOD 同开抽检）。
 - **0.1.1（基础可辨识环境）**：在仍使用 `ROCKY`/`DIRT` 前提下，三房间布景改为 **化石树（`rock_petrified_tree_*`）+ 裸岩（含 `rock_flintless`）+ 疏林 `twiggy`**，压低草/浆果；新增 **`XISHAN_PEAK`** 石峰脊线房间；少量 `skeleton` / `houndbone` / `goldnugget` 烘托荒远志怪与「多金玉」联想；房间与小地图 **colour** 微调为偏金绿色。仍无自制 turf 贴图。
+- **0.2.0（第二阶段占位·地标）**：`sh_config` 内三房间 `distributeprefabs` 增加低权重 **`ancient_altar`**、**`resurrectionstone`**、**`fireflies`**；`modworldgenmain` 按 **`world_size`** 注册 `XISHAN_DOMAIN_SMALL` / `DEFAULT` / `HUGE` 变体以拉大区域观感差异。测试（`stability-pass`）仍后置。
+- **0.2.1（第二阶段占位·第二版）**：在 **不清世界生成架构** 前提下追加第二批原版氛围：**`butterfly`**、**`crow`**、**`flower`**（疏林/空地）、**`molehill`**（坡地土路）、峰顶 **`marbletree`**（金玉联想）与 **`fireflies`**；`M.Mod.Version` 与 `modinfo` 对齐。**`stability-pass` 仍待最后做。**
