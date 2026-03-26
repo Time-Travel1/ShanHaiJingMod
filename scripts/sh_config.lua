@@ -3,6 +3,7 @@
 -- 1) 在地图上出现的「任务 / 房间」ID与名称（仅用于 worldgen 拼接）
 -- 2) 每个房间使用的地皮类型（ground）与分布权重（distributeprefabs）
 -- 3) 小地图小格的颜色（colour）
+-- 4) 客户端「域内氛围」：Runtime（轮询周期、是否叠色、colour cube 路径、进出音效）
 --
 -- 重要提醒：
 -- - room_id / TaskId / LevelId 等 ID：不要随便改。DST worldgen 可能会缓存或复用旧 ID，改错会导致“看起来没生成”或表现异常。
@@ -17,11 +18,11 @@ local M = {}
 
 M.Mod = {
     DisplayName = "山海经 · 西山域",
-    Version = "0.2.1",
+    Version = "0.2.2",
     Description = [[
 【第一阶段】主世界森林追加「西山域」生成任务：化石林 + 多岩 + 疏林（twiggy）+ 灰土/岩地混搭，小地图黄绿偏金色块可辨；仍为官方地皮占位，神山建筑与域内天气在后续版本加入。
 
-【第二阶段（占位）】原版地标（祭坛/复活石/萤火虫等）+ 第二批低权重氛围（蝴蝶、乌鸦、鼹鼠丘、野花、峰顶少量大理石树），仍无自制贴图。
+【第二阶段（占位）】原版地标 + 氛围生物；客户端在进入/离开西山域房间时叠轻度调色（可调/可关）。
 
 新建世界后跑图寻找西山域地块。
 ]],
@@ -208,6 +209,28 @@ M.Worldgen = {
             },
         },
     },
+}
+
+-- 运行时氛围（不进存档；仅影响当前客户端画面/音效）
+-- 判定方式：TheWorld.Map:GetTopologyIDAtPoint → 与 Worldgen.Rooms 的房间 ID 比对（勿与 worldgen 房间名脱节）。
+M.Runtime = {
+    -- 总开关：false 时不注册客户端轮询（零开销）
+    Enabled = true,
+    -- 检测周期（秒）。越小越跟脚，略增客户端负担；不建议低于 0.1
+    PollPeriod = 0.35,
+    -- 是否启用「调色立方」叠色（playervision:SetCustomCCTable）。幽灵视角等官方优先级仍高于本项。
+    EnableColourCube = true,
+    -- 以下为 DST 原版 colour cube 贴图路径；想更淡可四门都改成 identity_colourcube（几乎无叠色）
+    ColourCube = {
+        day = "images/colour_cubes/ruins_dim_cc.tex",
+        dusk = "images/colour_cubes/ruins_dim_cc.tex",
+        night = "images/colour_cubes/ruins_dark_cc.tex",
+        full_moon = "images/colour_cubes/ruins_dim_cc.tex",
+    },
+    -- 进入域时播放的一次性音效（留空 = 不播）。须为游戏内存在的 SoundEvent 路径。
+    SoundEnter = "",
+    -- 离开域时播放的一次性音效（留空 = 不播）
+    SoundLeave = "",
 }
 
 return M

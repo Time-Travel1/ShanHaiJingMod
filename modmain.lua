@@ -4,10 +4,12 @@ PrefabFiles = {}
 Assets = {}
 
 local CFG = GLOBAL.require("sh_config")
+GLOBAL.require("sh_xishan_runtime").Init(CFG)
 
 -- modmain 里的职责：
 -- - 把可配置的显示名写进 STRINGS（用于游戏界面里可能出现的名字/本地化key）
--- - worldgen 的具体生成逻辑都在 modworldgenmain.lua + scripts/sh_config.lua
+-- - worldgen：modworldgenmain.lua + scripts/sh_config.lua
+-- - 域内客户端氛围：scripts/sh_xishan_runtime.lua（读 CFG.Runtime）
 --
 -- 备注：
 -- - modinfo.lua 的名称/简介是 DST 的启动配置，不能稳定从这里动态读取，所以 modinfo.lua 里仍是静态字符串。

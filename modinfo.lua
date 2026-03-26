@@ -4,10 +4,10 @@ description = [[
 
 新建世界后跑图寻找西山域地块。
 
-【第二阶段（占位）】地标（祭坛/复活石/萤火虫）+ 氛围（蝴蝶、乌鸦、鼹鼠丘、野花、峰顶少量大理石树）；全原版 prefab，无自制贴图。
+【第二阶段（占位）】地标 + 氛围生物；进入西山域房间时客户端轻度调色（可关，见 sh_config Runtime）。
 ]]
 author = "ShanHaiJingMod"
-version = "0.2.1"
+version = "0.2.2"
 forumthread = ""
 api_version = 10
 
